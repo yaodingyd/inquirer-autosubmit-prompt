@@ -49,5 +49,4 @@ inquirer.prompt(questions).then(answers => {
 [Yao Ding](https://github.com/yaodingyd/)
 
 ## License
-
-ISC
+MIT
