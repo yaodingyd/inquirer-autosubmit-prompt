@@ -1,12 +1,23 @@
 'use strict';
 /**
- * `input` type prompt
+ * Combined `input` and `password` type prompt
+ * with auto submit support
  */
 
 const chalk = require('chalk');
 const {map, takeUntil} = require('rxjs/operators');
 const Base = require('inquirer/lib/prompts/base');
 const observe = require('inquirer/lib/utils/events');
+
+function mask(input, maskChar) {
+	input = String(input);
+	maskChar = typeof maskChar === 'string' ? maskChar : '*';
+	if (input.length === 0) {
+		return '';
+	}
+
+	return new Array(input.length + 1).join(maskChar);
+}
 
 class InputPrompt extends Base {
 	/**
@@ -50,10 +61,22 @@ class InputPrompt extends Base {
 		if (isFinal) {
 			appendContent = this.answer;
 		} else {
-			appendContent = this.rl.line;
+			appendContent = this.rl.line || '';
 		}
 
-		if (transformer) {
+		if (this.opt.secret) {
+			// Password transform
+			if (isFinal) {
+				message += this.opt.mask ?
+					chalk.cyan(mask(appendContent, this.opt.mask)) :
+					chalk.italic.dim('[hidden]');
+			} else if (this.opt.mask) {
+				message += mask(appendContent, this.opt.mask);
+			} else {
+				message += chalk.italic.dim('[input is hidden] ');
+			}
+		// Input transform
+		} else if (transformer) {
 			message += transformer(appendContent, this.answers, {isFinal});
 		} else {
 			message += isFinal ? chalk.cyan(appendContent) : appendContent;

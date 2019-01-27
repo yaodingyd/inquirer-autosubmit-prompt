@@ -8,7 +8,7 @@ npm install --save inquirer-autosubmit-prompt
 
 ## Usage
 
-It extends Inquire.js's default `input` with auto submit ability.
+It extends Inquire.js's default `input` and `password` with auto submit.
 
 ```javascript
 inquirer.registerPrompt('autosubmit', require('inquirer-autosubmit-prompt'));
@@ -20,7 +20,9 @@ inquirer.prompt({
 
 ### Options
 
-See [inquirer](https://github.com/SBoudrias/Inquirer.js) readme for meaning of all except **autoSubmit**.
+See [inquirer](https://github.com/SBoudrias/Inquirer.js) readme for meaning of all except **autoSubmit** and **secret**.
+
+**secret** indicates this is a `password` prompt. Defaults to false (`input` prompt).
 
 **autoSubmit** should be a function which takes the current input and returns a boolean. If condition is true, current input will be submitted, without user typing enter.
 

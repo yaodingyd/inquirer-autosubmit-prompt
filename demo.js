@@ -15,15 +15,6 @@ const questions = [
 	},
 	{
 		type: 'input',
-		name: 'last_name',
-		message: 'What\'s your last name',
-		default() {
-			return 'Doe';
-		},
-		autoSubmit: input => input.length === 3
-	},
-	{
-		type: 'input',
 		name: 'phone',
 		message: 'What\'s your phone number',
 		autoSubmit: input => input.length === 10,
@@ -37,6 +28,13 @@ const questions = [
 
 			return 'Please enter a valid phone number';
 		}
+	},
+	{
+		type: 'input',
+		name: 'password',
+		message: 'What\'s your 8 digits password',
+		secret: true,
+		autoSubmit: input => input.length === 8
 	}
 ];
 

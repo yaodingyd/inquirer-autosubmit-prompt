@@ -64,9 +64,9 @@ test('should use the flags object in the provided transformer', async t => {
 
 	const prompt = new Input(t.context.fixture, t.context.rl, answers);
 	const input = prompt.run();
-	t.context.rl.emit('line', 'inquirer');
+	t.context.rl.emit('line', 'inquirerr');
 	await input;
-	t.truthy(t.context.rl.output.__raw__.includes('INQUIRER'));
+	t.truthy(t.context.rl.output.__raw__.includes('INQUIRERR'));
 });
 
 test('should autosubmit', async t => {
@@ -79,3 +79,22 @@ test('should autosubmit', async t => {
 	t.truthy(t.context.rl.output.__raw__.includes('12345'));
 });
 
+test('for secret input, should mask the input with "*" if the `mask` option was provided by the user was `true`', async t => {
+	t.context.fixture.mask = true;
+	t.context.fixture.secret = true;
+	const prompt = new Input(t.context.fixture, t.context.rl);
+	const input = prompt.run();
+	t.context.rl.emit('line', '12345');
+	await input;
+	t.truthy(t.context.rl.output.__raw__.includes('*****'));
+});
+
+test('for secret input, should mask the input if a `mask` string was provided by the user', async t => {
+	t.context.fixture.mask = '#';
+	t.context.fixture.secret = true;
+	const prompt = new Input(t.context.fixture, t.context.rl);
+	const input = prompt.run();
+	t.context.rl.emit('line', '12345');
+	await input;
+	t.truthy(t.context.rl.output.__raw__.includes('#####'));
+});
