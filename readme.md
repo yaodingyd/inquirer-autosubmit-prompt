@@ -30,7 +30,7 @@ See [inquirer](https://github.com/SBoudrias/Inquirer.js) readme for meaning of a
 
 ```javascript
 const inquirer = require('inquirer');
-inquirer.registerPrompt('autosubmit', require('inquirer-autosubmit-promt'));
+inquirer.registerPrompt('autosubmit', require('inquirer-autosubmit-prompt'));
 
 const questions = [
 	{
